@@ -1,0 +1,71 @@
+import React, { useState } from 'react';
+
+const StockList = () => {
+  const [stocks, setStocks] = useState([
+    { symbol: 'AAPL', companyName: 'Apple Inc.' },
+    { symbol: 'MSFT', companyName: 'Microsoft Corporation' },
+    { symbol: 'GOOGL', companyName: 'Alphabet Inc.' },
+    { symbol: 'AMZN', companyName: 'Amazon.com, Inc.' },
+    { symbol: 'FB', companyName: 'Facebook, Inc.' },
+    { symbol: 'TSLA', companyName: 'Tesla, Inc.' },
+    { symbol: 'NVDA', companyName: 'NVIDIA Corporation' },
+    { symbol: 'JPM', companyName: 'JPMorgan Chase & Co.' },
+    { symbol: 'V', companyName: 'Visa Inc.' },
+    { symbol: 'MA', companyName: 'Mastercard Incorporated' },
+    { symbol: 'MA', companyName: 'Mastercard Incorporated' },
+    // Добавьте другие объекты с данными акций здесь
+  ]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const perPage = 10;
+  const totalData = stocks.length;
+  const totalPages = Math.ceil(totalData / perPage);
+
+  const handleClickPrev = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleClickNext = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const visibleData = stocks.slice((currentPage - 1) * perPage, currentPage * perPage);
+
+  return (
+    <div>
+      <h1>Stock List</h1>
+      {stocks.length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Symbol</th>
+              <th>Company Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {visibleData.map((stock, index) => (
+              <tr key={stock.symbol}>
+                <td>{index + 1}</td>
+                <td>{stock.symbol}</td>
+                <td>{stock.companyName}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No data available</p>
+      )}
+      <div>
+        <button disabled={currentPage === 1 || stocks.length === 0} onClick={handleClickPrev}>
+          Prev
+        </button>
+        <button disabled={currentPage === totalPages || stocks.length === 0} onClick={handleClickNext}>
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default StockList;

@@ -1,0 +1,72 @@
+import React, { useEffect, useState } from 'react';
+import getStocks from '../api/stockApi';
+
+const StockList = () => {
+  const [stocks, setStocks] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const perPage = 10;
+  const totalData = 20;
+  const totalPages = Math.ceil(totalData / perPage);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getStocks();
+        console.log(data);
+        setStocks(data);
+      } catch (error) {
+        console.error('Error fetching stocks:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleClickPrev = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleClickNext = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const visibleData = stocks.slice((currentPage - 1) * perPage, currentPage * perPage);
+
+  return (
+    <div>
+      <h1>Stock List</h1>
+      {stocks.length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Symbol</th>
+              <th>Company Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {visibleData.map((stock, index) => (
+              <tr key={stock.symbol}>
+                <td>{index + 1}</td>
+                <td>{stock.symbol}</td>
+                <td>{stock.companyName}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No data available</p>
+      )}
+      <div>
+        <button disabled={currentPage === 1 || stocks.length === 0} onClick={handleClickPrev}>
+          Prev
+        </button>
+        <button disabled={currentPage === totalPages || stocks.length === 0} onClick={handleClickNext}>
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default StockList;

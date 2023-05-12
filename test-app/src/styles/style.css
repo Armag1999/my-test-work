@@ -1,0 +1,40 @@
+body{
+    margin: 0;
+    padding: 0;
+    color: white;
+    background-color: rgb(28, 28, 28);
+}
+
+.stockMain{
+    border: 1px solid white;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items:end;
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.stockTable{
+    width: 100%;
+    border: 1px solid white;
+}
+
+.stockTable td{
+    text-align: center;
+}
+
+.stockBtn{
+    border: 1px solid black;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin: 5px 0 0 10px;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.stockMain h1{
+    text-align: center;
+    width: 100%;
+}
